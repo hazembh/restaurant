@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
+ 
+  
+
   Widget rect( {@required String name, @required IconData icon }) {
     return Container(
         padding: EdgeInsets.all(15),
@@ -14,9 +17,11 @@ class LoginPage extends StatelessWidget {
   }
 
   @override
+  Color b = Colors.black;
+  Color w = Colors.white;
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: w,
       
       body: Column(
 
@@ -29,7 +34,7 @@ class LoginPage extends StatelessWidget {
              IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
-            color: Colors.black,
+            color: b,
           ),
           onPressed: () {},
         ),
@@ -40,7 +45,7 @@ class LoginPage extends StatelessWidget {
             'Login In',
             style: TextStyle(
               fontSize: 40,
-              color: Colors.black,
+              color: b,
             ),
           ),
 
@@ -78,7 +83,7 @@ class LoginPage extends StatelessWidget {
                     child: Text(
                       'Login',
                       textAlign: TextAlign.center,
-                      style: TextStyle(color: Colors.white, fontSize: 20),
+                      style: TextStyle(color: w, fontSize: 20),
                     ),
                   ),
                 ),
@@ -88,13 +93,18 @@ class LoginPage extends StatelessWidget {
 
             Row(children: [
               SizedBox(width:130),
-              Text('Other User ? ',style: TextStyle(color: Colors.black),),
+              Text('Other User ? ',style: TextStyle(color: b),),
               Text('Register',style: TextStyle(color: Colors.red),),
-            ],)
-
+              
+            ],),
+         
+      
           
         ],
       ),
     );
   }
 }
+
+
+

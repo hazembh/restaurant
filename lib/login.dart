@@ -20,7 +20,6 @@ Widget rect({@required String name, @required IconData icon, bool x}) {
 Color b = Colors.grey[600];
 Color w = Colors.white;
 bool isSwitched = false;
-
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
@@ -53,11 +52,14 @@ class _LoginPageState extends State<LoginPage> {
                   value: isSwitched,
                   onChanged: (value) {
                     setState(() {
+                                      isSwitched = value;
+
                       b = b == Colors.white ? Colors.grey[600] : Colors.white;
                       w = w == Colors.grey[600]? Colors.white : Colors.grey[600];
                     });
                   },
-                  
+                   activeTrackColor:Colors.white70,
+                   activeColor:Colors.white70,
                   ),
             ],
           ),

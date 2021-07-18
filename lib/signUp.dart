@@ -61,6 +61,7 @@ class _SignUpPageState extends State<SignUpPage> {
             children: [
               SizedBox(height: 50),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
                     icon: Icon(
@@ -110,10 +111,10 @@ class _SignUpPageState extends State<SignUpPage> {
                 height: 30,
               ),
               Row(
+                                                mainAxisAlignment:MainAxisAlignment.center,
+
                 children: [
-                  SizedBox(
-                    width: 35,
-                  ),
+                 
                   button(
                       val: 'Cancel',
                       color1: Colors.grey,

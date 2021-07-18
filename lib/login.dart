@@ -34,6 +34,7 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               SizedBox(height: 50),
               Row(
+                mainAxisAlignment:MainAxisAlignment.center,
                 children: [
                   IconButton(
                     icon: Icon(
@@ -69,7 +70,9 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
               SizedBox(height: 50),
+              
               Column(children: [
+
                 rect(name: 'User Name', icon: Icons.person, x: false),
                 rect(name: 'Password', icon: Icons.lock, x: true),
               ]),
@@ -104,8 +107,10 @@ class _LoginPageState extends State<LoginPage> {
                 height: 20,
               ),
               Row(
+                                mainAxisAlignment:MainAxisAlignment.center,
+
                 children: [
-                  SizedBox(width: 130),
+                  
                   Text(
                     'Other User ? ',
                     style: TextStyle(color: b),

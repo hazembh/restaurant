@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/widget/my_text_field.dart';
 
 class SignUpPage extends StatefulWidget {
+  static Pattern pattern =
+      r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
   @override
   _SignUpPageState createState() => _SignUpPageState();
 }
 
 Widget button(
-    {@required String val, @required Color color1, @required Color color2}) {
+    {@required String val,
+    @required Color color1,
+    @required Color color2,
+    @required Function onTap}) {
   return RaisedButton(
-    onPressed: () {},
+    onPressed: onTap,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
     padding: EdgeInsets.all(0.0),
     child: Ink(
@@ -32,28 +38,94 @@ Widget button(
   );
 }
 
-Widget rect({
-  @required String name,
-}) {
-  return Container(
-      padding: EdgeInsets.all(15),
-      child: TextFormField(
-        decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            hintText: name,
-            hintStyle: TextStyle(color: b)),
-      ));
-}
-
 @override
 Color b = Colors.grey[600];
 Color w = Colors.white;
 bool isSwitched = false;
 
 class _SignUpPageState extends State<SignUpPage> {
+  RegExp regExp = RegExp(SignUpPage.pattern);
+  TextEditingController firstName = TextEditingController();
+  TextEditingController lasttName = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+  GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
+
+  void validation() {
+    if (firstName.text.trim().isEmpty || firstName.text.trim() == null) {
+      globalKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: Colors.grey[200],
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Please Enter Your First Name !',
+                  style:
+                      TextStyle(color: Colors.red, fontWeight: FontWeight.bold))
+            ],
+          )));
+      return;
+    }
+    if (lasttName.text.trim().isEmpty || lasttName.text.trim() == null) {
+      globalKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: Colors.grey[200],
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Please Enter your Last Name !',
+                  style:
+                      TextStyle(color: Colors.red, fontWeight: FontWeight.bold))
+            ],
+          )));
+      return;
+    }
+    if (email.text.trim().isEmpty || email.text.trim() == null) {
+      globalKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: Colors.grey[200],
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Please Enter your Email !',
+                  style:
+                      TextStyle(color: Colors.red, fontWeight: FontWeight.bold))
+            ],
+          )));
+      return;
+    }
+    else if (!regExp.hasMatch(email.text)) {
+       globalKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: Colors.grey[200],
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Please Enter a valid Email !',
+                  style:
+                      TextStyle(color: Colors.red, fontWeight: FontWeight.bold))
+            ],
+          )
+       )
+       );
+
+    }
+  
+    if (password.text.trim().isEmpty || password.text.trim() == null) {
+      globalKey.currentState.showSnackBar(SnackBar(
+          backgroundColor: Colors.grey[200],
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(' Please Enter your Password !',
+                  style:
+                      TextStyle(color: Colors.red, fontWeight: FontWeight.bold))
+            ],
+          )));
+      return;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: globalKey,
       backgroundColor: w,
       body: Container(
         child: SingleChildScrollView(
@@ -100,22 +172,35 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               SizedBox(height: 50),
               Column(children: [
-                rect(
-                  name: 'Name',
-                ),
-                rect(name: 'User Name'),
-                rect(name: 'Password'),
-                rect(name: 'Confirm Password'),
+                MyTextField(
+                    name: 'First Name',
+                    obscure: false,
+                    icon: Icons.person,
+                    controller: firstName),
+                MyTextField(
+                    name: 'Last Name',
+                    obscure: false,
+                    icon: Icons.person,
+                    controller: lasttName),
+                MyTextField(
+                    name: 'Email',
+                    obscure: false,
+                    icon: Icons.email,
+                    controller: email),
+                MyTextField(
+                    name: 'Password',
+                    obscure: true,
+                    icon: Icons.lock,
+                    controller: password),
               ]),
               SizedBox(
                 height: 30,
               ),
               Row(
-                                                mainAxisAlignment:MainAxisAlignment.center,
-
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                 
                   button(
+                      onTap: () {},
                       val: 'Cancel',
                       color1: Colors.grey,
                       color2: Colors.pink[100]),
@@ -123,6 +208,9 @@ class _SignUpPageState extends State<SignUpPage> {
                     width: 40,
                   ),
                   button(
+                      onTap: () {
+                        validation();
+                      },
                       val: 'Register',
                       color1: Colors.pink[100],
                       color2: Colors.red),

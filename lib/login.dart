@@ -1,22 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/widget/my_text_field.dart';
 
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
-Widget rect({@required String name, @required IconData icon, bool x}) {
-  return Container(
-      padding: EdgeInsets.all(15),
-      child: TextFormField(
-        obscureText: x,
-        decoration: InputDecoration(
-            prefixIcon: Icon(icon, color: b),
-            border: OutlineInputBorder(),
-            hintText: name,
-            hintStyle: TextStyle(color: b)),
-      ));
-}
+
 
 @override
 Color b = Colors.grey[600];
@@ -30,11 +20,11 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: w,
       body: Container(
         child: SingleChildScrollView(
-                  child: Column(
+          child: Column(
             children: [
               SizedBox(height: 50),
               Row(
-                mainAxisAlignment:MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   IconButton(
                     icon: Icon(
@@ -61,7 +51,9 @@ class _LoginPageState extends State<LoginPage> {
                         isSwitched = value;
 
                         b = b == Colors.white ? Colors.grey[600] : Colors.white;
-                        w = w == Colors.grey[600] ? Colors.white : Colors.grey[600];
+                        w = w == Colors.grey[600]
+                            ? Colors.white
+                            : Colors.grey[600];
                       });
                     },
                     activeTrackColor: Colors.white70,
@@ -70,11 +62,9 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
               SizedBox(height: 50),
-              
               Column(children: [
-
-                rect(name: 'User Name', icon: Icons.person, x: false),
-                rect(name: 'Password', icon: Icons.lock, x: true),
+                MyTextField (name:'Email',obscure: false,icon: Icons.email, controller:null),
+                MyTextField (name:'Password',obscure: true,icon: Icons.lock, controller:null),
               ]),
               SizedBox(
                 height: 30,
@@ -93,7 +83,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       borderRadius: BorderRadius.circular(30.0)),
                   child: Container(
-                    constraints: BoxConstraints(maxWidth: 250.0, minHeight: 50.0),
+                    constraints:
+                        BoxConstraints(maxWidth: 250.0, minHeight: 50.0),
                     alignment: Alignment.center,
                     child: Text(
                       'Login',
@@ -107,10 +98,8 @@ class _LoginPageState extends State<LoginPage> {
                 height: 20,
               ),
               Row(
-                                mainAxisAlignment:MainAxisAlignment.center,
-
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  
                   Text(
                     'Other User ? ',
                     style: TextStyle(color: b),

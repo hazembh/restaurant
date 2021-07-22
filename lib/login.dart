@@ -6,8 +6,6 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
-
-
 @override
 Color b = Colors.grey[600];
 Color w = Colors.white;
@@ -63,8 +61,16 @@ class _LoginPageState extends State<LoginPage> {
               ),
               SizedBox(height: 50),
               Column(children: [
-                MyTextField (name:'Email',obscure: false,icon: Icons.email, controller:null),
-                MyTextField (name:'Password',obscure: true,icon: Icons.lock, controller:null),
+                MyTextField(
+                    name: 'Email',
+                    obscure: false,
+                    icon: Icons.email,
+                    controller: null),
+                MyTextField(
+                    name: 'Password',
+                    obscure: true,
+                    icon: Icons.lock,
+                    controller: null),
               ]),
               SizedBox(
                 height: 30,

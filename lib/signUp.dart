@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/widget/my_text_field.dart';
 
@@ -51,6 +53,30 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController password = TextEditingController();
   GlobalKey<ScaffoldState> globalKey = GlobalKey<ScaffoldState>();
 
+  Future senData() async {
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: email.text, password: password.text);
+      await Firestore.instance.collection('userData').document().setData({
+        'firstName': firstName.text.trim(),
+        'lastName': lasttName.text.trim(),
+        'email': email.text.trim(),
+        
+        'password': password.text.trim(),
+      });
+    } catch (e) {
+      if (e.code == 'weak-password') {
+        globalKey.currentState.showSnackBar(SnackBar(
+          content: Text("Weak Password !"),
+        ));
+      } else if (e.code == 'email-already-in-use') {
+        globalKey.currentState.showSnackBar(SnackBar(
+          content: Text("The account already exists for that email."),
+        ));
+      }
+    }
+  }
+
   void validation() {
     if (firstName.text.trim().isEmpty || firstName.text.trim() == null) {
       globalKey.currentState.showSnackBar(SnackBar(
@@ -90,9 +116,8 @@ class _SignUpPageState extends State<SignUpPage> {
             ],
           )));
       return;
-    }
-    else if (!regExp.hasMatch(email.text)) {
-       globalKey.currentState.showSnackBar(SnackBar(
+    } else if (!regExp.hasMatch(email.text)) {
+      globalKey.currentState.showSnackBar(SnackBar(
           backgroundColor: Colors.grey[200],
           content: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -101,12 +126,9 @@ class _SignUpPageState extends State<SignUpPage> {
                   style:
                       TextStyle(color: Colors.red, fontWeight: FontWeight.bold))
             ],
-          )
-       )
-       );
-
+          )));
     }
-  
+
     if (password.text.trim().isEmpty || password.text.trim() == null) {
       globalKey.currentState.showSnackBar(SnackBar(
           backgroundColor: Colors.grey[200],
@@ -119,6 +141,9 @@ class _SignUpPageState extends State<SignUpPage> {
             ],
           )));
       return;
+    }
+    else {
+      senData();
     }
   }
 

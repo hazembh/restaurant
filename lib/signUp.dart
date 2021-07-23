@@ -44,6 +44,7 @@ Widget button(
 Color b = Colors.grey[600];
 Color w = Colors.white;
 bool isSwitched = false;
+bool loading = false;
 
 class _SignUpPageState extends State<SignUpPage> {
   RegExp regExp = RegExp(SignUpPage.pattern);
@@ -61,20 +62,43 @@ class _SignUpPageState extends State<SignUpPage> {
         'firstName': firstName.text.trim(),
         'lastName': lasttName.text.trim(),
         'email': email.text.trim(),
-        
         'password': password.text.trim(),
       });
     } catch (e) {
-      if (e.code == 'weak-password') {
+      if (e.code == 'ERROR_WEAK_PASSWORD') {
         globalKey.currentState.showSnackBar(SnackBar(
-          content: Text("Weak Password !"),
-        ));
-      } else if (e.code == 'email-already-in-use') {
+            backgroundColor: Colors.grey[200],
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('weak password !!!',
+                    style: TextStyle(
+                        color: Colors.red, fontWeight: FontWeight.bold))
+              ],
+            )));
+      } else if (e.code == 'ERROR_EMAIL_ALREADY_IN_USE') {
         globalKey.currentState.showSnackBar(SnackBar(
-          content: Text("The account already exists for that email."),
-        ));
+            backgroundColor: Colors.grey[200],
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('The account is already exist ! ',
+                    style: TextStyle(
+                        color: Colors.red, fontWeight: FontWeight.bold))
+              ],
+            )));
       }
+    } 
+    catch(e){
+      print(e);
+
+      setState(() {
+        loading = false;
+      });
     }
+    setState(() {
+      loading = false;
+    });
   }
 
   void validation() {
@@ -141,8 +165,10 @@ class _SignUpPageState extends State<SignUpPage> {
             ],
           )));
       return;
-    }
-    else {
+    } else {
+      setState(() {
+        loading = true;
+      });
       senData();
     }
   }
@@ -221,26 +247,28 @@ class _SignUpPageState extends State<SignUpPage> {
               SizedBox(
                 height: 30,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  button(
-                      onTap: () {},
-                      val: 'Cancel',
-                      color1: Colors.grey,
-                      color2: Colors.pink[100]),
-                  SizedBox(
-                    width: 40,
-                  ),
-                  button(
-                      onTap: () {
-                        validation();
-                      },
-                      val: 'Register',
-                      color1: Colors.pink[100],
-                      color2: Colors.red),
-                ],
-              ),
+              loading
+                  ? CircularProgressIndicator()
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        button(
+                            onTap: () {},
+                            val: 'Cancel',
+                            color1: Colors.grey,
+                            color2: Colors.pink[100]),
+                        SizedBox(
+                          width: 40,
+                        ),
+                        button(
+                            onTap: () {
+                              validation();
+                            },
+                            val: 'Register',
+                            color1: Colors.pink[100],
+                            color2: Colors.red),
+                      ],
+                    )
             ],
           ),
         ),
